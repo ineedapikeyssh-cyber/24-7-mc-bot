@@ -1,9 +1,7 @@
-
 const bedrock = require('bedrock-protocol');
 const http = require('http');
 
 // --- CRUCIAL RENDER FIX: Web Server Setup ---
-// This opens a web port so Render knows your bot is running smoothly and doesn't shut it down.
 const port = process.env.PORT || 10000;
 const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -18,29 +16,26 @@ function createBedrockBot() {
     console.log('🤖 Connecting to Bedrock Server acorezero.qzz.io on port 20313...');
 
     const client = bedrock.createClient({
-        host: 'acorezero.qzz.io', // Your exact server address
-        port: 20313,              // Your exact server port
-        username: 'AFK_Bot_247',  // The bot's ingame name
-        offline: true,            // Bypasses Xbox/Mojang premium login requirements
-        version: '1.21.10'        // Matches your exact server version
+        host: 'acorezero.qzz.io', 
+        port: 20313,              
+        username: 'AFK_Bot_247',  
+        offline: true,            
+        version: '1.21.0'        // Supported protocol version string
     });
 
     client.on('spawn', () => {
         console.log('✅ Success! The bot has spawned safely into the world.');
     });
 
-    // Auto-reconnect safety layer if the server restarts or kicks the bot
     client.on('close', (reason) => {
         console.log(`❌ Disconnected from server. Reason: ${reason}`);
         console.log('🔄 Attempting to reconnect in 10 seconds...');
         setTimeout(createBedrockBot, 10000);
     });
 
-    // Prevents the background container from completely crashing on a network glitch
     client.on('error', (err) => {
         console.error('⚠️ Protocol network error occurred:', err.message);
     });
 }
 
-// Fire up the bot connection loop
 createBedrockBot();
