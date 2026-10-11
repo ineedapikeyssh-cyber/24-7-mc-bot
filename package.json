@@ -1,1 +1,13 @@
 
+{
+  "name": "mc-bedrock-bot",
+  "version": "1.0.0",
+  "description": "24/7 Minecraft Bedrock AFK Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bedrock-protocol": "^4.10.0"
+  }
+}
